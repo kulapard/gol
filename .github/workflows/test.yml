@@ -1,9 +1,6 @@
 name: Test
 
-on:
-  push:
-    branches:
-      - "*" # all branches
+on: [push, pull_request]
 
 # one running workflow per branch, others will wait
 concurrency: ${{ github.ref }}
