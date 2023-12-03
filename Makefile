@@ -9,3 +9,8 @@ build:
 .PHONY: run
 run:
 	go run . run
+
+.PHONY: check-releaser
+check-releaser:
+	goreleaser check
+	goreleaser release --snapshot --clean
