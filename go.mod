@@ -1,4 +1,4 @@
-module gol
+module github.com/kulapard/gol
 
 go 1.21
 
