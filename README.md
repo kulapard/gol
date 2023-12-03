@@ -9,6 +9,8 @@
 
 Conway's Game of Life written in Go
 
+![screencast](assets/gol_random_30x30.gif)
+
 ## Install ##
 
 Using [Homebrew](http://brew.sh/) (OS X / Linux)
