@@ -21,6 +21,6 @@
 go.work
 /bin/
 .idea/
-.DS_Store
+/.DS_Store
 
 dist/
