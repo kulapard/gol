@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"github.com/kulapard/gol/cmd"
 )
 
 var (
@@ -12,9 +12,6 @@ var (
 )
 
 func main() {
-	rootCmd.Version = fmt.Sprintf("%s, commit %s, built at %s", version, commit, date)
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	version := fmt.Sprintf("%s, commit %s, built at %s", version, commit, date)
+	cmd.Execute(version)
 }

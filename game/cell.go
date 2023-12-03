@@ -1,4 +1,4 @@
-package main
+package game
 
 type Cell struct {
 	isAlive bool
