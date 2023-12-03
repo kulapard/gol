@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/github/kulapard/gol/graph/badge.svg?token=Z9SAAI8VQ4)](https://codecov.io/github/kulapard/gol)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kulapard/gol)](https://goreportcard.com/report/github.com/kulapard/gol)
 
-Conway's Game of Life written in Go
+[Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) written in Go
 
 ![screencast](assets/gol_random_30x40.gif)
 
