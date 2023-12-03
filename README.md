@@ -9,7 +9,7 @@
 
 Conway's Game of Life written in Go
 
-![screencast](assets/gol_random_30x30.gif)
+![screencast](assets/gol_random_30x40.gif)
 
 ## Install ##
 
