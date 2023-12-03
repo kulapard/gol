@@ -10,8 +10,8 @@ build:
 run:
 	go run . run
 
-.PHONY: version
-version:
+.PHONY: help
+help:
 	go run . -h
 
 .PHONY: check-releaser

@@ -1,9 +1,16 @@
-package cmd
+package main
 
 import (
 	"github.com/spf13/cobra"
-	"gol/game"
 )
+
+var rootCmd = &cobra.Command{
+	Use: "gol",
+	// TODO: write description
+	Short:             "Game of life",
+	Long:              `Game of life...`,
+	CompletionOptions: cobra.CompletionOptions{DisableDefaultCmd: true},
+}
 
 var speed int
 var fileName string
@@ -13,7 +20,7 @@ var cmdRun = &cobra.Command{
 	Use:   "run",
 	Short: "Run Game of Life",
 	Run: func(cmd *cobra.Command, args []string) {
-		game.RunGameOfLife(fileName, speed, rows, cols)
+		RunGameOfLife(fileName, speed, rows, cols)
 	},
 }
 

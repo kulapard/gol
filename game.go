@@ -1,4 +1,4 @@
-package game
+package main
 
 import (
 	"fmt"
@@ -36,14 +36,26 @@ func NewGameOfLife(speed int, loader Loader, renderer Renderer) *GameOfLife {
 	}
 }
 
-func (g *GameOfLife) Run() {
+func (g *GameOfLife) Load() error {
 	// Load the board
 	board, err := g.loader.Load()
 	if err != nil {
 		fmt.Print("Error loading board:", err)
-		return
+		return err
 	}
 	g.board = board
+	return nil
+}
+func (g *GameOfLife) Render() {
+	// Render the board
+	g.renderer.Render(g)
+}
+
+func (g *GameOfLife) Run() error {
+	// Load the board
+	if err := g.Load(); err != nil {
+		return err
+	}
 
 	// Calculate sleep time
 	sleep := time.Millisecond * time.Duration(1000/g.Speed)
@@ -51,7 +63,7 @@ func (g *GameOfLife) Run() {
 	// Run the game
 	for {
 		// Render the board
-		g.renderer.Render(g)
+		g.Render()
 
 		// Next generation
 		g.board.NextGeneration()
@@ -64,4 +76,5 @@ func (g *GameOfLife) Run() {
 			break
 		}
 	}
+	return nil
 }

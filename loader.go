@@ -1,4 +1,4 @@
-package game
+package main
 
 import (
 	"bufio"
@@ -11,12 +11,31 @@ type Loader interface {
 	String() string
 }
 
+// FromFileLoader is a Loader that loads a board from a file
 type FromFileLoader struct {
 	FileName string
 }
 
+// RandomLoader is a Loader that returns a random board
 type RandomLoader struct {
 	Rows, Cols int
+}
+
+// EmptyLoader is a Loader that returns an empty board
+type EmptyLoader struct {
+	Rows, Cols int
+}
+
+func (l FromFileLoader) String() string {
+	return fmt.Sprintf("file `%s`", l.FileName)
+}
+
+func (l RandomLoader) String() string {
+	return fmt.Sprintf("random %d x %d", l.Rows, l.Cols)
+}
+
+func (l EmptyLoader) String() string {
+	return fmt.Sprintf("empty %d x %d", l.Rows, l.Cols)
 }
 
 func (l FromFileLoader) Load() (*Board, error) {
@@ -60,10 +79,6 @@ func (l FromFileLoader) Load() (*Board, error) {
 	return board, nil
 }
 
-func (l FromFileLoader) String() string {
-	return fmt.Sprintf("file `%s`", l.FileName)
-}
-
 func (l RandomLoader) Load() (*Board, error) {
 	// Validate the board size
 	if l.Rows < 1 || l.Cols < 1 {
@@ -75,6 +90,12 @@ func (l RandomLoader) Load() (*Board, error) {
 	return board, nil
 }
 
-func (l RandomLoader) String() string {
-	return fmt.Sprintf("random %d x %d", l.Rows, l.Cols)
+func (l EmptyLoader) Load() (*Board, error) {
+	// Validate the board size
+	if l.Rows < 1 || l.Cols < 1 {
+		fmt.Println("Invalid board size: rows and cols must be greater than 0")
+		return nil, nil
+	}
+	board := NewBoard(l.Rows, l.Cols)
+	return board, nil
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gol/cmd"
+	"os"
 )
 
 var (
@@ -12,6 +12,9 @@ var (
 )
 
 func main() {
-	v := fmt.Sprintf("%s, commit %s, built at %s", version, commit, date)
-	cmd.Execute(v)
+	rootCmd.Version = fmt.Sprintf("%s, commit %s, built at %s", version, commit, date)
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }

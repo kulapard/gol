@@ -1,5 +1,5 @@
 // Description: Test for board.go
-package game
+package main
 
 import (
 	"fmt"
