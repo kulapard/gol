@@ -13,7 +13,7 @@
 
 ## Install ##
 
-Using [Homebrew](http://brew.sh/) (OS X / Linux)
+Using [Homebrew](https://brew.sh/) (OS X / Linux)
 
 ```shell
 brew install kulapard/tap/gol
@@ -21,8 +21,28 @@ brew install kulapard/tap/gol
 
 ## Update ##
 
-Using [Homebrew](http://brew.sh/) (OS X / Linux)
+Using [Homebrew](https://brew.sh/) (OS X / Linux)
 
 ```shell
 brew upgrade kulapard/tap/gol
+```
+
+## Usage ##
+
+Run with default parameters (rows: 30, columns: 30, random initial state):
+
+```shell
+gol run
+```
+
+Run initial state from file:
+
+```shell
+gol run --file ./example/board.txt
+```
+
+To see all available options:
+
+```shell
+gol run --help
 ```
