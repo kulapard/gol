@@ -11,7 +11,7 @@ var rows, cols int
 
 var cmdRun = &cobra.Command{
 	Use:   "run",
-	Short: "RunForever Game of Life",
+	Short: "Run Game of Life",
 	Run: func(cmd *cobra.Command, args []string) {
 		gol := game.SetupGameOfLife(fileName, speed, rows, cols)
 		gol.RunForever()
