@@ -10,6 +10,10 @@ build:
 run:
 	go run . run
 
+.PHONY: version
+version:
+	go run . -h
+
 .PHONY: check-releaser
 check-releaser:
 	goreleaser check

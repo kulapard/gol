@@ -5,7 +5,16 @@ before:
     - go mod tidy
 
 builds:
-  - env:
+  - id: gol
+    binary: gol
+    ldflags:
+      - -s
+      - -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -29,7 +38,7 @@ brews:
     description: "Terminal version of Conway's Game of Life written in Go"
     license: "MIT"
     test: |
-      system "#{bin}/gol -h"
+      system "#{bin}/gol --version"
 
 archives:
   - format: tar.gz
