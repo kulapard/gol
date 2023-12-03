@@ -2,6 +2,7 @@ package game
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -82,8 +83,7 @@ func (l FromFileLoader) Load() (*Board, error) {
 func (l RandomLoader) Load() (*Board, error) {
 	// Validate the board size
 	if l.Rows < 1 || l.Cols < 1 {
-		fmt.Println("Invalid board size: rows and cols must be greater than 0")
-		return nil, nil
+		return nil, errors.New("invalid board size")
 	}
 	board := NewBoard(l.Rows, l.Cols)
 	board.Randomize()
@@ -93,8 +93,7 @@ func (l RandomLoader) Load() (*Board, error) {
 func (l EmptyLoader) Load() (*Board, error) {
 	// Validate the board size
 	if l.Rows < 1 || l.Cols < 1 {
-		fmt.Println("Invalid board size: rows and cols must be greater than 0")
-		return nil, nil
+		return nil, errors.New("invalid board size")
 	}
 	board := NewBoard(l.Rows, l.Cols)
 	return board, nil

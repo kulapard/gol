@@ -1,6 +1,6 @@
 .PHONY: test
 test:
-	go clean -testcache && go test -v -cover ./...
+	go clean -testcache && go test -v -cover ./game
 
 .PHONY: build
 build:
