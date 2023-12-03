@@ -29,7 +29,7 @@ brew upgrade kulapard/tap/gol
 
 ## Usage ##
 
-Run with default parameters (rows: 30, columns: 30, random initial state):
+Run with default parameters (size 30 x 40, random initial state):
 
 ```shell
 gol run
