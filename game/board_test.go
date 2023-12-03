@@ -101,6 +101,12 @@ func TestBoard_CountAliveCells(t *testing.T) {
 	if count != 3 {
 		t.Errorf("Expected 3 alive cells, got %d", count)
 	}
+
+	b.NextGeneration()
+	count = b.CountAliveCells()
+	if count != 1 {
+		t.Errorf("Expected 1 alive cells, got %d", count)
+	}
 }
 
 func TestBoard_CountAliveNeighbours(t *testing.T) {

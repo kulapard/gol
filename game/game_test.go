@@ -27,12 +27,34 @@ func TestNewGameOfLife(t *testing.T) {
 	if g.Speed != 1 {
 		t.Errorf("NewGameOfLife should set Speed to 1, got %d", g.Speed)
 	}
+}
 
-	g = NewGameOfLife(-1, loader, renderer)
+func TestSetupGameOfLife(t *testing.T) {
+	g := SetupGameOfLife("", 1, 3, 3)
+	if g == nil {
+		t.Error("SetupGameOfLife should not return nil")
+	}
 	if g.Speed != 1 {
-		t.Errorf("NewGameOfLife should set Speed to 1, got %d", g.Speed)
+		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
 	}
 
+	g = SetupGameOfLife("", -1, 3, 3)
+	if g.Speed != 1 {
+		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
+	}
+
+	g = SetupGameOfLife("test", 1, 3, 3)
+	if g == nil {
+		t.Error("SetupGameOfLife should not return nil")
+	}
+	if g.Speed != 1 {
+		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
+	}
+
+	g = SetupGameOfLife("test", -1, 3, 3)
+	if g.Speed != 1 {
+		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
+	}
 }
 
 func TestGameOfLife_Load(t *testing.T) {
@@ -55,4 +77,10 @@ func TestGameOfLife_Load(t *testing.T) {
 	if err.Error() != "broken loader" {
 		t.Errorf("Load should return 'broken loader', got %v", err)
 	}
+}
+
+func TestGameOfLife_Render(t *testing.T) {
+	g := NewGameOfLife(1, loader, renderer)
+	g.Load()
+	g.Render()
 }

@@ -13,22 +13,30 @@ type GameOfLife struct {
 	renderer Renderer
 }
 
-func RunGameOfLife(FileName string, Speed, Rows, Cols int) {
+func SetupGameOfLife(FileName string, Speed, Rows, Cols int) *GameOfLife {
 	var loader Loader
+
+	// Validate speed
+	if Speed <= 0 {
+		Speed = 1
+	}
+
+	// Pick a loader
 	if FileName != "" {
 		loader = FromFileLoader{FileName: FileName}
 	} else {
 		loader = RandomLoader{Rows: Rows, Cols: Cols}
 	}
+
+	// Pick a renderer
 	renderer := StdoutRenderer{}
-	NewGameOfLife(Speed, loader, renderer).Run()
+
+	gol := NewGameOfLife(Speed, loader, renderer)
+	gol.Load()
+	return gol
 }
 
 func NewGameOfLife(speed int, loader Loader, renderer Renderer) *GameOfLife {
-	// Validate speed
-	if speed <= 0 {
-		speed = 1
-	}
 	return &GameOfLife{
 		Speed:    speed,
 		loader:   loader,
@@ -51,16 +59,10 @@ func (g *GameOfLife) Render() {
 	g.renderer.Render(g)
 }
 
-func (g *GameOfLife) Run() error {
-	// Load the board
-	if err := g.Load(); err != nil {
-		return err
-	}
-
+func (g *GameOfLife) RunForever() {
 	// Calculate sleep time
 	sleep := time.Millisecond * time.Duration(1000/g.Speed)
 
-	// Run the game
 	for {
 		// Render the board
 		g.Render()
@@ -68,13 +70,12 @@ func (g *GameOfLife) Run() error {
 		// Next generation
 		g.board.NextGeneration()
 
-		// Sleep
-		time.Sleep(sleep)
-
 		// Check if the board is stable or extinct
 		if g.board.IsStable() || g.board.IsExtinct() {
 			break
 		}
+
+		// Sleep
+		time.Sleep(sleep)
 	}
-	return nil
 }

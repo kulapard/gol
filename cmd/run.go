@@ -11,9 +11,10 @@ var rows, cols int
 
 var cmdRun = &cobra.Command{
 	Use:   "run",
-	Short: "Run Game of Life",
+	Short: "RunForever Game of Life",
 	Run: func(cmd *cobra.Command, args []string) {
-		game.RunGameOfLife(fileName, speed, rows, cols)
+		gol := game.SetupGameOfLife(fileName, speed, rows, cols)
+		gol.RunForever()
 	},
 }
 
