@@ -5,6 +5,7 @@
 [![Build Status](https://github.com/kulapard/gol/actions/workflows/release.yml/badge.svg)](https://github.com/kulapard/gol/actions/workflows/release.yml)
 [![Build Status](https://github.com/kulapard/gol/actions/workflows/test.yml/badge.svg)](https://github.com/kulapard/gol/actions/workflows/release.yml)
 [![codecov](https://codecov.io/github/kulapard/gol/graph/badge.svg?token=Z9SAAI8VQ4)](https://codecov.io/github/kulapard/gol)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kulapard/gol)](https://goreportcard.com/report/github.com/kulapard/gol)
 
 Conway's Game of Life written in Go
 
