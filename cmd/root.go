@@ -7,7 +7,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use: "game",
+	Use: "gol",
 	// TODO: write description
 	Short:             "Game of life",
 	Long:              `Game of life...`,
