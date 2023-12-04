@@ -38,7 +38,7 @@ gol run
 Run initial state from file:
 
 ```shell
-gol run --file ./example/board.txt
+gol run --file ./examples/board.txt
 ```
 
 To see all available options:
