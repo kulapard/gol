@@ -52,6 +52,8 @@ func (l FromFileLoader) Load() (*Board, error) {
 	var data [][]Cell
 	scanner := bufio.NewScanner(file)
 
+	var prevRowSize int
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		var row []Cell
@@ -61,7 +63,7 @@ func (l FromFileLoader) Load() (*Board, error) {
 				continue
 			}
 			if char != '0' && char != '.' {
-				return nil, fmt.Errorf("invalid character: '%c'", char)
+				return nil, fmt.Errorf("error parsing file `%s`: invalid character '%c'", l.FileName, char)
 			}
 			cell := Cell{}
 			if char == '0' {
@@ -71,6 +73,13 @@ func (l FromFileLoader) Load() (*Board, error) {
 			}
 			row = append(row, cell)
 		}
+
+		// Validate the row size
+		if prevRowSize != 0 && prevRowSize != len(row) {
+			return nil, fmt.Errorf("error parsing file `%s`: different row sizes", l.FileName)
+		}
+
+		prevRowSize = len(row)
 		data = append(data, row)
 	}
 
