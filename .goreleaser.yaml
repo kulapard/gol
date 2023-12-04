@@ -7,20 +7,27 @@ before:
 builds:
   - id: gol
     binary: gol
-    main: ./
-    ldflags:
-      - -s
-      - -w
-      - -X main.version={{.Version}}
-      - -X main.commit={{.Commit}}
-      - -X main.date={{.Date}}
-    mod_timestamp: '{{ .CommitTimestamp }}'
+    dir: cmd/gol
+    ldflags: "-s -w -X main.revision={{.Tag}}-{{.ShortCommit}}-{{.CommitDate}}"
     env:
       - CGO_ENABLED=0
     goos:
       - linux
       - windows
       - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: freebsd
+        goarch: arm
+      - goos: freebsd
+        goarch: arm64
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
 
 brews:
   - name: gol

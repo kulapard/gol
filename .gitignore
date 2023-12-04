@@ -20,6 +20,7 @@
 # Go workspace file
 go.work
 /bin/
+.bin/
 .idea/
 .DS_Store
 

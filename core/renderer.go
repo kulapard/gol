@@ -1,16 +1,19 @@
-package game
+package core
 
 import (
 	"fmt"
 )
 
+// Renderer is an interface for rendering the core
 type Renderer interface {
 	Render(*GameOfLife)
 }
 
+// StdoutRenderer is a Renderer that renders the core to stdout
 type StdoutRenderer struct {
 }
 
+// Render renders the core
 func (s StdoutRenderer) Render(g *GameOfLife) {
 	// Clear the screen
 	clearScreen()

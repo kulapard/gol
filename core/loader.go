@@ -1,4 +1,4 @@
-package game
+package core
 
 import (
 	"bufio"
@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// Loader is an interface for loading a board
 type Loader interface {
 	Load() (*Board, error)
 	String() string
@@ -39,6 +40,7 @@ func (l EmptyLoader) String() string {
 	return fmt.Sprintf("empty %d x %d", l.Rows, l.Cols)
 }
 
+// Load returns a board loaded from a file
 func (l FromFileLoader) Load() (*Board, error) {
 	file, err := os.Open(l.FileName)
 	if err != nil {
@@ -80,6 +82,7 @@ func (l FromFileLoader) Load() (*Board, error) {
 	return board, nil
 }
 
+// Load returns a board with random data
 func (l RandomLoader) Load() (*Board, error) {
 	// Validate the board size
 	if l.Rows < 1 || l.Cols < 1 {
@@ -90,6 +93,7 @@ func (l RandomLoader) Load() (*Board, error) {
 	return board, nil
 }
 
+// Load returns an empty board (for testing)
 func (l EmptyLoader) Load() (*Board, error) {
 	// Validate the board size
 	if l.Rows < 1 || l.Cols < 1 {

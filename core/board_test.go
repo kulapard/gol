@@ -1,5 +1,5 @@
 // Description: Test for board.go
-package game
+package core
 
 import (
 	"fmt"
@@ -59,34 +59,34 @@ func TestBoard_Randomize(t *testing.T) {
 
 func TestBoard_GetNeighbours(t *testing.T) {
 	b := NewBoard(3, 3)
-	neighbours := b.GetNeighbours(1, 1)
-	if len(neighbours) != 8 {
-		t.Errorf("Expected 8 neighbours, got %d", len(neighbours))
+	neighbors := b.GetNeighbours(1, 1)
+	if len(neighbors) != 8 {
+		t.Errorf("Expected 8 neighbors, got %d", len(neighbors))
 	}
-	// Check if the neighbours are correct
-	if neighbours[0] != &b.data[0][0] {
-		t.Errorf("Expected %v, got %v", &b.data[0][0], neighbours[0])
+	// Check if the neighbors are correct
+	if neighbors[0] != &b.data[0][0] {
+		t.Errorf("Expected %v, got %v", &b.data[0][0], neighbors[0])
 	}
-	if neighbours[1] != &b.data[0][1] {
-		t.Errorf("Expected %v, got %v", &b.data[0][1], neighbours[1])
+	if neighbors[1] != &b.data[0][1] {
+		t.Errorf("Expected %v, got %v", &b.data[0][1], neighbors[1])
 	}
-	if neighbours[2] != &b.data[0][2] {
-		t.Errorf("Expected %v, got %v", &b.data[0][2], neighbours[2])
+	if neighbors[2] != &b.data[0][2] {
+		t.Errorf("Expected %v, got %v", &b.data[0][2], neighbors[2])
 	}
-	if neighbours[3] != &b.data[1][0] {
-		t.Errorf("Expected %v, got %v", &b.data[1][0], neighbours[3])
+	if neighbors[3] != &b.data[1][0] {
+		t.Errorf("Expected %v, got %v", &b.data[1][0], neighbors[3])
 	}
-	if neighbours[4] != &b.data[1][2] {
-		t.Errorf("Expected %v, got %v", &b.data[1][2], neighbours[4])
+	if neighbors[4] != &b.data[1][2] {
+		t.Errorf("Expected %v, got %v", &b.data[1][2], neighbors[4])
 	}
-	if neighbours[5] != &b.data[2][0] {
-		t.Errorf("Expected %v, got %v", &b.data[2][0], neighbours[5])
+	if neighbors[5] != &b.data[2][0] {
+		t.Errorf("Expected %v, got %v", &b.data[2][0], neighbors[5])
 	}
-	if neighbours[6] != &b.data[2][1] {
-		t.Errorf("Expected %v, got %v", &b.data[2][1], neighbours[6])
+	if neighbors[6] != &b.data[2][1] {
+		t.Errorf("Expected %v, got %v", &b.data[2][1], neighbors[6])
 	}
-	if neighbours[7] != &b.data[2][2] {
-		t.Errorf("Expected %v, got %v", &b.data[2][2], neighbours[7])
+	if neighbors[7] != &b.data[2][2] {
+		t.Errorf("Expected %v, got %v", &b.data[2][2], neighbors[7])
 	}
 }
 func TestBoard_CountAliveCells(t *testing.T) {
@@ -130,7 +130,7 @@ func TestBoard_CountAliveNeighbours(t *testing.T) {
 
 	count := b.CountAliveNeighbours(2, 2)
 	if count != 3 {
-		t.Errorf("Expected 3 alive neighbours, got %d", count)
+		t.Errorf("Expected 3 alive neighbors, got %d", count)
 	}
 
 }
@@ -239,7 +239,8 @@ func TestBoard_IsExtinct(t *testing.T) {
 	if !b.IsExtinct() {
 		t.Error("Expected true, got false")
 	}
-	b.Randomize()
+	b.aliveCount = 1
+	b.generation = 2
 	if b.IsExtinct() {
 		t.Error("Expected false, got true")
 	}

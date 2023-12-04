@@ -1,15 +1,17 @@
-package game
+package core
 
+// Cell is a single cell in the core
 type Cell struct {
 	isAlive bool
 }
 
+// Block characters for rendering
 const (
 	YellowBlock string = "\033[48;5;226m  \033[0m"
 	GreyBlock   string = "\033[48;5;240m  \033[0m"
 )
 
-// Draw returns the string representation of the cell
+// String returns a string representation of the cell
 func (c *Cell) String() string {
 	if c.isAlive {
 		return YellowBlock

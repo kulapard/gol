@@ -1,10 +1,10 @@
-package game
+package core
 
 import (
-	"fmt"
 	"time"
 )
 
+// GameOfLife is the core itself
 type GameOfLife struct {
 	Speed int // Speed in "generations per second"
 
@@ -13,29 +13,35 @@ type GameOfLife struct {
 	renderer Renderer
 }
 
-func SetupGameOfLife(FileName string, Speed, Rows, Cols int) *GameOfLife {
+// SetupGameOfLife creates a new game with predefined loader and renderer
+func SetupGameOfLife(fileName string, speed, rows, cols int) (*GameOfLife, error) {
 	var loader Loader
 
 	// Validate speed
-	if Speed <= 0 {
-		Speed = 1
+	if speed <= 0 {
+		speed = 1
 	}
 
 	// Pick a loader
-	if FileName != "" {
-		loader = FromFileLoader{FileName: FileName}
+	if fileName != "" {
+		loader = FromFileLoader{FileName: fileName}
 	} else {
-		loader = RandomLoader{Rows: Rows, Cols: Cols}
+		loader = RandomLoader{Rows: rows, Cols: cols}
 	}
 
 	// Pick a renderer
 	renderer := StdoutRenderer{}
 
-	gol := NewGameOfLife(Speed, loader, renderer)
-	gol.Load()
-	return gol
+	gol := NewGameOfLife(speed, loader, renderer)
+	err := gol.Load()
+	if err != nil {
+		return nil, err
+	}
+
+	return gol, nil
 }
 
+// NewGameOfLife creates a new core
 func NewGameOfLife(speed int, loader Loader, renderer Renderer) *GameOfLife {
 	return &GameOfLife{
 		Speed:    speed,
@@ -44,21 +50,24 @@ func NewGameOfLife(speed int, loader Loader, renderer Renderer) *GameOfLife {
 	}
 }
 
+// Load loads the core using predefined loader
 func (g *GameOfLife) Load() error {
 	// Load the board
 	board, err := g.loader.Load()
 	if err != nil {
-		fmt.Print("Error loading board:", err)
 		return err
 	}
 	g.board = board
 	return nil
 }
+
+// Render renders the core using predefined renderer
 func (g *GameOfLife) Render() {
 	// Render the board
 	g.renderer.Render(g)
 }
 
+// RunForever runs the core forever (until the board becomes stable or extinct or the user presses Ctrl+C)
 func (g *GameOfLife) RunForever() {
 	// Calculate sleep time
 	sleep := time.Millisecond * time.Duration(1000/g.Speed)
