@@ -33,7 +33,6 @@ var cmdRun = &cobra.Command{
 			return
 		}
 		gol.RunForever()
-
 	},
 }
 
