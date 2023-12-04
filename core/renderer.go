@@ -31,6 +31,8 @@ func (s StdoutRenderer) Render(g *GameOfLife) {
 	} else if g.board.IsStable() {
 		fmt.Println("Stable!")
 	}
+	fmt.Println()
+	fmt.Println("[Press Ctrl+C to exit]")
 }
 
 // clearScreen clears the screen
