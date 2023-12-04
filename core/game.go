@@ -12,7 +12,7 @@ type GameOfLife struct {
 	loader   Loader
 	renderer Renderer
 
-	isStable   bool
+	hasChanged bool
 	generation int
 }
 
@@ -76,8 +76,6 @@ func (g *GameOfLife) NextGeneration() {
 	// Create a new board to store the next generation
 	nextBoard := NewBoard(g.board.Rows, g.board.Cols)
 
-	var hasChanged bool
-
 	// Iterate through the board cells
 	for row := range nextBoard.data {
 		for col := range nextBoard.data[row] {
@@ -94,7 +92,7 @@ func (g *GameOfLife) NextGeneration() {
 				if aliveNeighbours < 2 || aliveNeighbours > 3 {
 					// Kill the cell
 					newCell.Kill()
-					hasChanged = true
+					g.hasChanged = true
 				} else {
 					// Keep the cell alive
 					newCell.Revive()
@@ -103,7 +101,7 @@ func (g *GameOfLife) NextGeneration() {
 				if aliveNeighbours == 3 {
 					// Revive the cell
 					newCell.Revive()
-					hasChanged = true
+					g.hasChanged = true
 				} else {
 					// Keep the cell dead
 					newCell.Kill()
@@ -112,9 +110,6 @@ func (g *GameOfLife) NextGeneration() {
 			}
 		}
 	}
-	// Check if the board is stable
-	g.isStable = !hasChanged
-
 	// Copy the next generation to the current board
 	g.board = nextBoard
 
@@ -128,9 +123,9 @@ func (g *GameOfLife) IsExtinct() bool {
 	return g.board.CountAliveCells() == 0
 }
 
-// IsStable returns true if the board is stable, false otherwise.
-func (g *GameOfLife) IsStable() bool {
-	return g.isStable
+// HasChanged returns true if the board is stable, false otherwise.
+func (g *GameOfLife) HasChanged() bool {
+	return g.hasChanged
 }
 
 // RunForever runs the game forever (until the board becomes stable or extinct or the user presses Ctrl+C)
@@ -146,7 +141,7 @@ func (g *GameOfLife) RunForever() {
 		g.NextGeneration()
 
 		// Check if the board is stable or extinct
-		if g.IsStable() || g.IsExtinct() {
+		if g.HasChanged() || g.IsExtinct() {
 			break
 		}
 

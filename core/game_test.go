@@ -165,20 +165,21 @@ func TestGameOfLife_NextGeneration(t *testing.T) {
 }
 
 func TestGameOfLife_IsStable(t *testing.T) {
-	g := NewGameOfLife(1, emptyLoader, stdoutRenderer)
+	g := NewGameOfLife(1, RandomLoader{Rows: 3, Cols: 3}, stdoutRenderer)
 	g.Load()
 
-	if g.IsStable() {
+	if g.HasChanged() {
 		t.Error("Expected false, got true")
 	}
 	g.NextGeneration()
-	if !g.IsStable() {
+	if !g.HasChanged() {
 		t.Error("Expected true, got false")
 	}
 
-	g.board.Randomize()
+	g = NewGameOfLife(1, emptyLoader, stdoutRenderer)
+	g.Load()
 	g.NextGeneration()
-	if g.IsStable() {
+	if g.HasChanged() {
 		t.Error("Expected false, got true")
 	}
 

@@ -28,7 +28,7 @@ func (s StdoutRenderer) Render(g *GameOfLife) {
 
 	if g.IsExtinct() {
 		fmt.Println("Extinct!")
-	} else if g.IsStable() {
+	} else if !g.HasChanged() {
 		fmt.Println("Stable!")
 	}
 	fmt.Println()

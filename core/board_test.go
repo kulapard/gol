@@ -25,19 +25,6 @@ func TestNewBoard(t *testing.T) {
 	}
 }
 
-func TestBoard_Randomize(t *testing.T) {
-	b := NewBoard(3, 3)
-	b.Randomize()
-	for _, row := range b.data {
-		for _, cell := range row {
-			if cell.IsAlive() {
-				return
-			}
-		}
-	}
-	t.Error("Expected at least one cell to be alive")
-}
-
 func TestBoard_GetNeighbours(t *testing.T) {
 	b := NewBoard(3, 3)
 	neighbors := b.GetNeighbours(1, 1)
@@ -135,22 +122,5 @@ func TestBoard_IsOutside(t *testing.T) {
 	}
 	if b.IsOutside(1, 1) {
 		t.Error("Expected false, got true")
-	}
-}
-
-func TestBoard_LoadData(t *testing.T) {
-	b := NewBoard(3, 3)
-	b.Randomize()
-
-	b1 := NewBoard(3, 3)
-	b1.Randomize()
-
-	b.LoadData(b1.data)
-	for i, row := range b.data {
-		for j, cell := range row {
-			if cell != b1.data[i][j] {
-				t.Errorf("Expected %v, got %v", cell, b1.data[i][j])
-			}
-		}
 	}
 }

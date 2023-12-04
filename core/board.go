@@ -25,23 +25,6 @@ func NewBoard(rows, cols int) *Board {
 	return &Board{Rows: rows, Cols: cols, data: data}
 }
 
-// Randomize Randomly populate the board with alive cells.
-// TODO: move this to a RandomLoader
-func (b *Board) Randomize() {
-	for row := range b.data {
-		for col := range b.data[row] {
-			// Access the cell directly
-			cell := &b.data[row][col]
-			if randBool() {
-				cell.Kill()
-			} else {
-				cell.Revive()
-			}
-
-		}
-	}
-}
-
 // GetNeighbours returns the neighbors of the given cell.
 func (b *Board) GetNeighbours(row, coll int) []*Cell {
 	var neighbors []*Cell
@@ -121,9 +104,4 @@ func (b *Board) String() string {
 // IsOutside returns true if the given Row and column are outside the board.
 func (b *Board) IsOutside(row, col int) bool {
 	return row < 0 || row >= b.Rows || col < 0 || col >= b.Cols
-}
-
-// LoadData loads the given data into the board.
-func (b *Board) LoadData(data [][]Cell) {
-	b.data = data
 }
