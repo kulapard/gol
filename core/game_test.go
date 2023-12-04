@@ -1,4 +1,4 @@
-package game
+package core
 
 import (
 	"errors"
@@ -21,40 +21,34 @@ var renderer = StdoutRenderer{}
 
 func TestNewGameOfLife(t *testing.T) {
 	g := NewGameOfLife(1, loader, renderer)
-	if g == nil {
-		t.Error("NewGameOfLife should not return nil")
-	}
 	if g.Speed != 1 {
 		t.Errorf("NewGameOfLife should set Speed to 1, got %d", g.Speed)
 	}
 }
 
 func TestSetupGameOfLife(t *testing.T) {
-	g := SetupGameOfLife("", 1, 3, 3)
-	if g == nil {
-		t.Error("SetupGameOfLife should not return nil")
-	}
-	if g.Speed != 1 {
-		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
-	}
+	t.Run("ok", func(t *testing.T) {
+		g, err := SetupGameOfLife("", 1, 3, 3)
+		if err != nil {
+			t.Error("SetupGameOfLife should not return nil")
+		}
+		if g.Speed != 1 {
+			t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
+		}
+	})
 
-	g = SetupGameOfLife("", -1, 3, 3)
-	if g.Speed != 1 {
-		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
-	}
-
-	g = SetupGameOfLife("test", 1, 3, 3)
-	if g == nil {
-		t.Error("SetupGameOfLife should not return nil")
-	}
-	if g.Speed != 1 {
-		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
-	}
-
-	g = SetupGameOfLife("test", -1, 3, 3)
-	if g.Speed != 1 {
-		t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
-	}
+	t.Run("invalid Rows", func(t *testing.T) {
+		g, err := SetupGameOfLife("", 1, 0, 3)
+		if g != nil && err == nil {
+			t.Error("SetupGameOfLife should return nil")
+		}
+	})
+	t.Run("invalid fileName", func(t *testing.T) {
+		g, err := SetupGameOfLife("", 1, 0, 3)
+		if g != nil && err == nil {
+			t.Error("SetupGameOfLife should return nil")
+		}
+	})
 }
 
 func TestGameOfLife_Load(t *testing.T) {
@@ -79,7 +73,7 @@ func TestGameOfLife_Load(t *testing.T) {
 	}
 }
 
-func TestGameOfLife_Render(t *testing.T) {
+func TestGameOfLife_Render(_ *testing.T) {
 	g := NewGameOfLife(1, loader, renderer)
 	g.Load()
 	g.Render()

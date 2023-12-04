@@ -1,20 +1,34 @@
-.PHONY: test
-test:
-	go clean -testcache && go test -v -cover ./game
+# Get the latest commit branch, hash, and date
+TAG=$(shell git describe --tags --abbrev=0 --exact-match 2>/dev/null)
+BRANCH=$(if $(TAG),$(TAG),$(shell git rev-parse --abbrev-ref HEAD 2>/dev/null))
+HASH=$(shell git rev-parse --short=7 HEAD 2>/dev/null)
+TIMESTAMP=$(shell git log -1 --format=%ct HEAD 2>/dev/null | xargs -I{} date -u -r {} +%Y%m%dT%H%M%S)
+GIT_REV=$(shell printf "%s-%s-%s" "$(BRANCH)" "$(HASH)" "$(TIMESTAMP)")
+REV=$(if $(filter --,$(GIT_REV)),latest,$(GIT_REV)) # fallback to latest if not in git repo
 
-.PHONY: build
+all: lint test build
+
+lint:
+	golangci-lint run
+
 build:
-	go build -o ./bin/gol .
+	cd cmd/gol && go build -ldflags "-X main.revision=$(REV) -s -w" -o ../.bin/gol.$(HASH)
+	cp .bin/gol.$(HASH) .bin/gol
+	gol --version
 
-.PHONY: run
-run:
-	go run . run
+release:
+	@echo release to dist/
+	goreleaser --snapshot --clean
+	ls -l dist/
 
-.PHONY: help
-help:
-	go run . -h
+test:
+	go clean -testcache
+	go test -coverprofile=coverage.out ./...
+	go tool cover -func=coverage.out
+	rm coverage.out
 
-.PHONY: check-releaser
-check-releaser:
-	goreleaser check
-	goreleaser release --snapshot --clean
+version:
+	@echo "branch: $(BRANCH), hash: $(HASH), timestamp: $(TIMESTAMP)"
+	@echo "revision: $(REV)"
+
+.PHONY: build release test site man version
