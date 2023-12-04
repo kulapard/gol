@@ -29,7 +29,8 @@ var cmdRun = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		gol, err := core.SetupGameOfLife(fileName, speed, rows, cols)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			return
 		}
 		gol.RunForever()
 	},

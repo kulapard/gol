@@ -26,7 +26,13 @@ func TestFromFileLoader_Load(t *testing.T) {
 		t.Error("Expected 3 alive cells, got ", board.CountAliveCells())
 	}
 
-	l = FromFileLoader{FileName: "testdata/invalid.txt"}
+	l = FromFileLoader{FileName: "testdata/invalid_chat.txt"}
+	_, err = l.Load()
+	if err == nil {
+		t.Error("Expected error loading board, got nil")
+	}
+
+	l = FromFileLoader{FileName: "testdata/invalid_row.txt"}
 	_, err = l.Load()
 	if err == nil {
 		t.Error("Expected error loading board, got nil")
