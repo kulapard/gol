@@ -22,54 +22,77 @@ var renderer = StdoutRenderer{}
 func TestNewGameOfLife(t *testing.T) {
 	g := NewGameOfLife(1, loader, renderer)
 	if g.Speed != 1 {
-		t.Errorf("NewGameOfLife should set Speed to 1, got %d", g.Speed)
+		t.Fatalf("NewGameOfLife should set Speed to 1, got %d", g.Speed)
 	}
 }
 
 func TestSetupGameOfLife(t *testing.T) {
-	t.Run("ok", func(t *testing.T) {
+	t.Run("ok random", func(t *testing.T) {
 		g, err := SetupGameOfLife("", 1, 3, 3)
 		if err != nil {
-			t.Error("SetupGameOfLife should not return nil")
+			t.Fatal("SetupGameOfLife should not return nil")
 		}
 		if g.Speed != 1 {
-			t.Errorf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
+			t.Fatalf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
+		}
+	})
+
+	t.Run("ok from file", func(t *testing.T) {
+		_, err := SetupGameOfLife("testdata/3x3.txt", 1, 3, 3)
+		if err != nil {
+			t.Fatal("SetupGameOfLife should not return nil")
+		}
+	})
+	t.Run("ok fixing speed", func(t *testing.T) {
+		g, err := SetupGameOfLife("", -1, 3, 3)
+		if g == nil && err != nil {
+			t.Fatal("SetupGameOfLife should fix speed and not return error:", err)
+		}
+		if g.Speed != 1 {
+			t.Fatalf("SetupGameOfLife should set Speed to 1, got %d", g.Speed)
 		}
 	})
 
 	t.Run("invalid Rows", func(t *testing.T) {
 		g, err := SetupGameOfLife("", 1, 0, 3)
 		if g != nil && err == nil {
-			t.Error("SetupGameOfLife should return nil")
+			t.Fatal("SetupGameOfLife should return nil")
+		}
+	})
+	t.Run("invalid board size", func(t *testing.T) {
+		g, err := SetupGameOfLife("", 1, 0, 3)
+		if g != nil && err == nil && err.Error() != "invalid board size" {
+			t.Fatal("SetupGameOfLife should return nil")
 		}
 	})
 	t.Run("invalid fileName", func(t *testing.T) {
-		g, err := SetupGameOfLife("", 1, 0, 3)
+		g, err := SetupGameOfLife("invalid", 1, 0, 3)
 		if g != nil && err == nil {
-			t.Error("SetupGameOfLife should return nil")
+			t.Fatal("SetupGameOfLife should return nil")
 		}
 	})
+
 }
 
 func TestGameOfLife_Load(t *testing.T) {
 	g := NewGameOfLife(1, loader, renderer)
 	if g.board != nil {
-		t.Error("Board should be nil before Load")
+		t.Fatal("Board should be nil before Load")
 	}
 	if err := g.Load(); err != nil {
-		t.Error("Load should not return error")
+		t.Fatal("Load should not return error")
 	}
 	if g.board == nil {
-		t.Error("Load should set board")
+		t.Fatal("Load should set board")
 	}
 
 	g = NewGameOfLife(1, brokenLoader, renderer)
 	err := g.Load()
 	if err == nil {
-		t.Error("Load should return error")
+		t.Fatal("Load should return error")
 	}
 	if err.Error() != "broken loader" {
-		t.Errorf("Load should return 'broken loader', got %v", err)
+		t.Fatalf("Load should return 'broken loader', got %v", err)
 	}
 }
 
