@@ -2,18 +2,12 @@ package core
 
 import (
 	"math"
-	"math/rand"
 )
 
 // Board represents the game board
 type Board struct {
 	Rows, Cols int
 	data       [][]Cell
-}
-
-// randBool returns a random boolean value
-func randBool() bool {
-	return rand.Intn(2) == 0 // nolint
 }
 
 // NewBoard creates a new board with the given number of rows and columns.
