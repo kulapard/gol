@@ -39,6 +39,7 @@ brews:
       name: Taras Drapalyuk
       email: taras@drapalyuk.com
     commit_msg_template: "Brew formula update for `{{ .ProjectName }}` version `{{ .Tag }}`"
+    folder: Formula
     homepage: "https://github.com/kulapard/gol"
     description: "Terminal version of Conway's Game of Life written in Go"
     license: "MIT"
