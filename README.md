@@ -41,6 +41,30 @@ Run initial state from file:
 gol run --file ./examples/board.txt
 ```
 
+To specify the size of the board and speed of the game:
+
+```shell
+gol run --rows 30 --cols 40 --speed 10
+```
+
+File format:
+
+- `.` (dot) - dead cell
+- `0` (zero) - alive cell
+- ` ` (space) - ignored, uses for readability
+- `\n` (new line) - end of row
+- all other characters cause a parsing error
+
+Example:
+
+```text
+. . . . .
+. . 0 . .
+. 0 . 0 .
+. . 0 . .
+. . . . .
+```
+
 To see all available options:
 
 ```shell
