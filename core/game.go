@@ -141,7 +141,7 @@ func (g *GameOfLife) RunForever() {
 		g.NextGeneration()
 
 		// Check if the board is stable or extinct
-		if g.HasChanged() || g.IsExtinct() {
+		if !g.HasChanged() || g.IsExtinct() {
 			break
 		}
 
