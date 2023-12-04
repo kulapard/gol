@@ -35,13 +35,10 @@ brews:
       owner: kulapard
       name: homebrew-tap
       branch: master
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    url_template: "https://github.com/kulapard/gol/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
     commit_author:
-      name: goreleaserbot
-      email: taras+goreleaserbot@drapalyuk.com
+      name: Taras Drapalyuk
+      email: taras@drapalyuk.com
     commit_msg_template: "Brew formula update for `{{ .ProjectName }}` version `{{ .Tag }}`"
-    folder: Formula
     homepage: "https://github.com/kulapard/gol"
     description: "Terminal version of Conway's Game of Life written in Go"
     license: "MIT"
