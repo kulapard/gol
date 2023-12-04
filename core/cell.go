@@ -1,6 +1,6 @@
 package core
 
-// Cell is a single cell in the core
+// Cell is a single cell in the game
 type Cell struct {
 	isAlive bool
 }
