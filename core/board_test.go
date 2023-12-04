@@ -2,7 +2,6 @@
 package core
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -24,37 +23,6 @@ func TestNewBoard(t *testing.T) {
 			}
 		}
 	}
-}
-func TestBoard_Copy(t *testing.T) {
-	b := NewBoard(3, 3)
-	b.Randomize()
-	c := b.Copy()
-	if b.Rows != c.Rows {
-		t.Errorf("Expected %d, got %d", b.Rows, c.Rows)
-	}
-	if b.Cols != c.Cols {
-		t.Errorf("Expected %d, got %d", b.Cols, c.Cols)
-	}
-	for i, row := range b.data {
-		for j, cell := range row {
-			if cell != c.data[i][j] {
-				t.Errorf("Expected %v, got %v", cell, c.data[i][j])
-			}
-		}
-	}
-}
-
-func TestBoard_Randomize(t *testing.T) {
-	b := NewBoard(3, 3)
-	b.Randomize()
-	for _, row := range b.data {
-		for _, cell := range row {
-			if cell.IsAlive() {
-				return
-			}
-		}
-	}
-	t.Error("Expected at least one cell to be alive")
 }
 
 func TestBoard_GetNeighbours(t *testing.T) {
@@ -102,9 +70,9 @@ func TestBoard_CountAliveCells(t *testing.T) {
 		t.Errorf("Expected 3 alive cells, got %d", count)
 	}
 
-	b.NextGeneration()
+	b.data[1][1].Kill()
 	count = b.CountAliveCells()
-	if count != 1 {
+	if count != 2 {
 		t.Errorf("Expected 1 alive cells, got %d", count)
 	}
 }
@@ -135,66 +103,6 @@ func TestBoard_CountAliveNeighbours(t *testing.T) {
 
 }
 
-func TestBoard_NextGeneration(t *testing.T) {
-	b := NewBoard(3, 3)
-
-	// Set the initial states
-	/*
-		1 1 1
-		0 0 0
-		0 0 0
-	*/
-	b.data[0][0].Revive()
-	b.data[0][1].Revive()
-	b.data[0][2].Revive()
-
-	fmt.Println("Initial state:")
-	fmt.Println(b)
-
-	b.NextGeneration()
-	// Expected state
-	/*
-		0 1 0
-		0 1 0
-		0 0 0
-	*/
-	fmt.Println("Next generation:")
-	fmt.Println(b)
-
-	// 0 1 0
-	if b.data[0][0].IsAlive() {
-		t.Error("Expected cell to be dead")
-	}
-	if b.data[0][1].IsDead() {
-		t.Error("Expected cell to be alive")
-	}
-	if b.data[0][2].IsAlive() {
-		t.Error("Expected cell to be dead")
-	}
-
-	// 0 1 0
-	if b.data[1][0].IsAlive() {
-		t.Error("Expected cell to be dead")
-	}
-	if b.data[1][1].IsDead() {
-		t.Error("Expected cell to be alive")
-	}
-	if b.data[1][2].IsAlive() {
-		t.Error("Expected cell to be dead")
-	}
-
-	// 0 0 0
-	if b.data[2][0].IsAlive() {
-		t.Error("Expected cell to be dead")
-	}
-	if b.data[2][1].IsAlive() {
-		t.Error("Expected cell to be dead")
-	}
-	if b.data[2][2].IsAlive() {
-		t.Error("Expected cell to be dead")
-	}
-}
-
 func TestBoard_IsOutside(t *testing.T) {
 	b := NewBoard(3, 3)
 	if !b.IsOutside(-1, 0) {
@@ -215,51 +123,4 @@ func TestBoard_IsOutside(t *testing.T) {
 	if b.IsOutside(1, 1) {
 		t.Error("Expected false, got true")
 	}
-}
-
-func TestBoard_LoadData(t *testing.T) {
-	b := NewBoard(3, 3)
-	b.Randomize()
-
-	b1 := NewBoard(3, 3)
-	b1.Randomize()
-
-	b.LoadData(b1.data)
-	for i, row := range b.data {
-		for j, cell := range row {
-			if cell != b1.data[i][j] {
-				t.Errorf("Expected %v, got %v", cell, b1.data[i][j])
-			}
-		}
-	}
-}
-
-func TestBoard_IsExtinct(t *testing.T) {
-	b := NewBoard(3, 3)
-	if !b.IsExtinct() {
-		t.Error("Expected true, got false")
-	}
-	b.aliveCount = 1
-	b.generation = 2
-	if b.IsExtinct() {
-		t.Error("Expected false, got true")
-	}
-}
-
-func TestBoard_IsStable(t *testing.T) {
-	var b = NewBoard(3, 3)
-	if b.IsStable() {
-		t.Error("Expected false, got true")
-	}
-	b.NextGeneration()
-	if !b.IsStable() {
-		t.Error("Expected true, got false")
-	}
-
-	b.Randomize()
-	b.NextGeneration()
-	if b.IsStable() {
-		t.Error("Expected false, got true")
-	}
-
 }

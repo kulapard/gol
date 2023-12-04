@@ -9,4 +9,10 @@ func TestStdoutRenderer_Render(t *testing.T) {
 		t.Error("Error loading board:", err)
 	}
 	r.Render(g)
+
+	g = NewGameOfLife(1, RandomLoader{Rows: 3, Cols: 3}, r)
+	if err := g.Load(); err != nil {
+		t.Error("Error loading board:", err)
+	}
+	r.Render(g)
 }

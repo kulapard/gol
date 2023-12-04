@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"math/rand"
 	"os"
 )
 
@@ -78,8 +79,13 @@ func (l FromFileLoader) Load() (*Board, error) {
 	}
 
 	board := NewBoard(len(data), len(data[0])) // Assuming all data have equal length
-	board.LoadData(data)
+	board.data = data
 	return board, nil
+}
+
+// randBool returns a random boolean value
+func randBool() bool {
+	return rand.Intn(2) == 0 // nolint
 }
 
 // Load returns a board with random data
@@ -89,7 +95,20 @@ func (l RandomLoader) Load() (*Board, error) {
 		return nil, errors.New("invalid board size")
 	}
 	board := NewBoard(l.Rows, l.Cols)
-	board.Randomize()
+
+	// Randomize the board
+	for row := range board.data {
+		for col := range board.data[row] {
+			// Access the cell directly
+			cell := &board.data[row][col]
+			if randBool() {
+				cell.Kill()
+			} else {
+				cell.Revive()
+			}
+
+		}
+	}
 	return board, nil
 }
 
