@@ -18,8 +18,7 @@ func (s StdoutRenderer) Render(g *GameOfLife) {
 	// Clear the screen
 	clearScreen()
 
-	// TODO: call the Print method on GameOfLife
-	fmt.Print(g.board.String())
+	fmt.Print(g.board)
 	fmt.Printf("Generation: %d\n", g.generation)
 	fmt.Printf("Population: %d (%d%%) \n", g.board.CountAliveCells(), g.board.AlivePercentage())
 	fmt.Printf("Size: %d x %d \n", g.board.Rows, g.board.Cols)

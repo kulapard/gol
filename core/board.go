@@ -54,7 +54,6 @@ func (b *Board) CountAliveNeighbours(row, coll int) int {
 }
 
 // CountAliveCells returns the number of alive cells.
-// TODO: calculate this only when the board changes
 func (b *Board) CountAliveCells() int {
 	// Calculate the alive cells only for the first generation
 	var count int
