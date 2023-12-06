@@ -12,10 +12,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use: "gol",
-	// TODO: write description
+	Use:               "gol",
 	Short:             "Game of life",
-	Long:              `Game of life...`,
+	Long:              "Conway's Game of Life written in Go. \nSee https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life for more info about the game.",
 	CompletionOptions: cobra.CompletionOptions{DisableDefaultCmd: true},
 }
 
