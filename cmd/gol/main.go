@@ -25,7 +25,7 @@ var rows, cols int
 var cmdRun = &cobra.Command{
 	Use:   "run",
 	Short: "Run Game of Life",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		gol, err := core.SetupGameOfLife(fileName, speed, rows, cols)
 		if err != nil {
 			fmt.Println(err)
