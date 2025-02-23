@@ -1,4 +1,4 @@
-version: 1
+version: 2
 
 before:
   hooks:
@@ -40,7 +40,7 @@ brews:
       name: Taras Drapalyuk
       email: taras@drapalyuk.com
     commit_msg_template: "Brew formula update for `{{ .ProjectName }}` version `{{ .Tag }}`"
-    folder: Formula
+    directory: Formula
     homepage: "https://github.com/kulapard/gol"
     description: "Terminal version of Conway's Game of Life written in Go"
     license: "MIT"
@@ -48,7 +48,7 @@ brews:
       system "#{bin}/gol --version"
 
 archives:
-  - format: tar.gz
+  - formats: [ 'tar.gz' ]
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
@@ -60,7 +60,7 @@ archives:
     # use zip for windows archives
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [ 'zip' ]
 
 changelog:
   sort: asc
