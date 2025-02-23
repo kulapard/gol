@@ -24,8 +24,7 @@ brew install kulapard/tap/gol
 Using [Homebrew](https://brew.sh/) (OS X / Linux)
 
 ```shell
-brew update
-brew upgrade gol
+brew upgrade kulapard/tap/gol
 ```
 
 ## Usage ##
