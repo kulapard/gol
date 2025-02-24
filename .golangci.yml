@@ -1,15 +1,7 @@
 run:
   timeout: 5m
-  output:
-    format: tab
 
 linters-settings:
-  govet:
-    shadow: true
-  golint:
-    min-confidence: 0.1
-  maligned:
-    suggest-new: true
   goconst:
     min-len: 2
     min-occurrences: 2
