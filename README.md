@@ -16,7 +16,7 @@
 Using [Homebrew](https://brew.sh/) (OS X / Linux)
 
 ```shell
-brew install kulapard/tap/gol
+brew install --cask kulapard/tap/gol
 ```
 
 ## Update ##

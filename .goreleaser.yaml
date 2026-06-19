@@ -29,7 +29,7 @@ builds:
       - goos: windows
         goarch: arm64
 
-brews:
+homebrew_casks:
   - name: gol
     repository:
       owner: kulapard
@@ -39,24 +39,29 @@ brews:
     commit_author:
       name: Taras Drapalyuk
       email: taras@drapalyuk.com
-    commit_msg_template: "Brew formula update for `{{ .ProjectName }}` version `{{ .Tag }}`"
-    directory: Formula
+    commit_msg_template: "Brew cask update for `{{ .ProjectName }}` version `{{ .Tag }}`"
     homepage: "https://github.com/kulapard/gol"
     description: "Terminal version of Conway's Game of Life written in Go"
     license: "MIT"
-    test: |
-      system "#{bin}/gol --version"
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/gol"]
+          end
 
 archives:
   - formats: [ 'tar.gz' ]
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
+      {{.ProjectName}}_
+      {{- .Tag}}_
+      {{- if eq .Os "darwin"}}macos
+      {{- else if eq .Os "windows"}}win
+      {{- else}}{{.Os}}{{end}}_
+      {{- if eq .Arch "amd64"}}x86_64
+      {{- else if eq .Arch "386"}}i386
+      {{- else}}{{.Arch}}{{end}}
     # use zip for windows archives
     format_overrides:
       - goos: windows
