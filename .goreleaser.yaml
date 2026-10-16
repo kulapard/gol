@@ -43,12 +43,13 @@ homebrew_casks:
     homepage: "https://github.com/kulapard/gol"
     description: "Terminal version of Conway's Game of Life written in Go"
     license: "MIT"
-    hooks:
-      post:
-        install: |
-          if OS.mac?
-            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/gol"]
-          end
+    # GoReleaser hooks render the deprecated `postflight` stanza, so emit `postflight_steps` directly.
+    custom_block: |
+      postflight_steps do
+        on_macos do
+          run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "gol"], chdir: "."
+        end
+      end
 
 archives:
   - formats: [ 'tar.gz' ]
