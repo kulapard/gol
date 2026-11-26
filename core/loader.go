@@ -30,7 +30,7 @@ type EmptyLoader struct {
 }
 
 func (l FromFileLoader) String() string {
-	return fmt.Sprintf("file `%s`", l.FileName)
+	return fmt.Sprintf("file %#q", l.FileName)
 }
 
 func (l RandomLoader) String() string {
